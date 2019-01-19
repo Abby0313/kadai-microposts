@@ -11,6 +11,8 @@ class User < ApplicationRecord
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
+  has_many :favorites
+  has_many :favored_microposts, through: :favorites, source: :micropost
 
   def follow(other_user)
     unless self == other_user
@@ -25,5 +27,17 @@ class User < ApplicationRecord
 
   def following?(other_user)
     self.followings.include?(other_user)
+  end
+  
+  def feed_microposts
+    Micropost.where(user_id: self.following_ids + [self.id])
+  end
+  
+  def like(micropost)
+    # 引数で送られてきたmicropostをいいねする
+    # 具体的にはfavoritesに既に同じuser_id、同じmicropost_idのレコードがなければ、それを追加する
+    unless self == user_id
+      self.favored_microposts.find_or_create_by(micropost_id: micropost.id)
+    end
   end
 end
