@@ -44,4 +44,20 @@ class UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
+
+  def like
+    puts pass1
+    @user = User.find(params[:id])
+    puts @user
+    @likes = @like.favored_microposts.all.page(params[:page])
+    puts @likes
+    counts(@likes)
+  end
+  
+  def like_off
+    @user = User.find(params[:id])
+    @followers = @user.followers.page(params[:page])
+    counts(@user)
+  end
+
 end
