@@ -36,9 +36,7 @@ class User < ApplicationRecord
   def like(micropost)
     # 引数で送られてきたmicropostをいいねする
     # 具体的にはfavoritesに既に同じuser_id、同じmicropost_idのレコードがなければ、それを追加する
-    unless self == user_id
-      self.favored_microposts.find_or_create_by(micropost_id: micropost.id)
-    end
+    self.favorites.find_or_create_by(micropost_id: micropost.id)
   end
   
   def like_off(micropost)

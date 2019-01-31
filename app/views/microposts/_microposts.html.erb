@@ -13,8 +13,11 @@
         </div>
         <div>
           <% if current_user == micropost.user %>
-            <%= link_to "Delete", micropost, method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
-            <%= link_to "likes", micropost, method: :like, class: 'btn btn-lg btn-primary btn-xs' %>
+          <%# 投稿者が現在ログインしているUserの場合、削除ボタンを表示する %>
+            <%= link_to "Delete", micropost_path(micropost), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
+          <% else %>
+          <%# そうじゃない場合、お気に入りボタンを表示する %>
+            <%= link_to "likes", favorites_path(micropost, micropost_id: micropost.id), method: :post, class: 'btn btn-lg btn-primary btn-xs' %>
           <% end %>
         </div>
       </div>
