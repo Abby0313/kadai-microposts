@@ -40,8 +40,8 @@ class User < ApplicationRecord
   end
   
   def like_off(micropost)
-    micropost = self.favorites.find_by(micropost_id: micropost.id)
-    favorites.destroy if micropost
+    favorite = self.favorites.find_by(micropost_id: micropost.id)
+    favorite.destroy if favorite
   end
 
 end

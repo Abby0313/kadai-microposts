@@ -16,8 +16,13 @@
           <%# 投稿者が現在ログインしているUserの場合、削除ボタンを表示する %>
             <%= link_to "Delete", micropost_path(micropost), method: :delete, data: { confirm: "You sure?" }, class: 'btn btn-danger btn-xs' %>
           <% else %>
-          <%# そうじゃない場合、お気に入りボタンを表示する %>
-            <%= link_to "likes", favorites_path(micropost, micropost_id: micropost.id), method: :post, class: 'btn btn-lg btn-primary btn-xs' %>
+            <%# そうじゃない場合、お気に入りボタン登録している場合はお気に入りから削除を表示する %>
+            <% if current_user.favored_microposts.include? micropost %>
+              <%= link_to "likes_off", favorite_path(micropost, micropost_id: micropost.id), method: :delete, class: 'btn btn-lg btn-primary btn-xs' %>
+            <% else %>
+            <%# お気に入りボタン登録していいない場合はお気に入り登録を表示する %>
+              <%= link_to "likes", favorites_path(micropost, micropost_id: micropost.id), method: :post, class: 'btn btn-lg btn-primary btn-xs' %>
+            <% end %>
           <% end %>
         </div>
       </div>
