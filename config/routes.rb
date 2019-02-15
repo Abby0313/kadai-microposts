@@ -14,8 +14,14 @@ Rails.application.routes.draw do
       get :like_off
     end
   end
-
+  
   resources :microposts, only: [:create, :destroy]
   resources :relationships, only: [:create, :destroy]
   resources :favorites, only: [:create, :destroy] 
+
+  resources :users, only: [:index] do
+    member do
+      get :likes
+    end
+  end
 end

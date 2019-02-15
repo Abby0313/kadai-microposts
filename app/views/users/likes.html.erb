@@ -1,0 +1,12 @@
+<ul class="media-list">
+  <% @likes.each do |micropost| %>
+    <li class="media">
+      <div class="media-body">
+        <div>
+          <p><%= micropost.content %></p>
+        </div>
+      </div>
+    </li>
+  <% end %>
+  <%= paginate @likes %>
+</ul>

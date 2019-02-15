@@ -6,6 +6,17 @@ class UsersController < ApplicationController
   end
 
   def show
+    # User.findはUserクラスのインスタンスを戻り値として返してくる、それを@userで受け取っている
+    # @userはインスタンスなので、インスタンスメソッドを実行できる
+    # 実はhas_many :micropostsはUserクラスにmicropostsというインスタンスメソッドを定義している（裏で）
+    # 実際には
+    # def microposts
+    # ...
+    # end
+    # ↑これと同じ
+    # なので、@user.micropostsというのは、Userクラスのインスタンスメソッドであるmicropostsを呼び出している
+    # @user.micropostsを実行することで、Micropostクラスのインスタンスがたくさん入った配列（のようなもの）が返ってくる
+    # [Micropostのインスタンス1, Micropostのインスタンス2,...]
     @user = User.find(params[:id])
     @microposts = @user.microposts.order('created_at DESC').page(params[:page])
     counts(@user)
@@ -37,6 +48,12 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @followers = @user.followers.page(params[:page])
     counts(@user)
+  end
+
+  def likes
+    @user = User.find(params[:id])
+    @likes = @user.favored_microposts.page(params[:page])
+    # デフォルトでは、views/user/likes.html.erbに飛ぶ
   end
 
   private
