@@ -4,6 +4,13 @@
       <div class="media-body">
         <div>
           <p><%= micropost.content %></p>
+          <%# お気に入りボタン登録している場合はお気に入りから削除を表示する %>
+          <% if current_user.favored_microposts.include? micropost %>
+            <%= link_to "likes_off", favorite_path(micropost, micropost_id: micropost.id), method: :delete, class: 'btn btn-lg btn-primary btn-xs' %>
+          <% else %>
+          <%# お気に入りボタン登録していいない場合はお気に入り登録を表示する %>
+            <%= link_to "likes", favorites_path(micropost, micropost_id: micropost.id), method: :post, class: 'btn btn-lg btn-primary btn-xs' %>
+          <% end %>
         </div>
       </div>
     </li>
