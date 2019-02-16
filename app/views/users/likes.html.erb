@@ -3,6 +3,7 @@
     <li class="media">
       <div class="media-body">
         <div>
+          <%= link_to micropost.user.name, user_path(micropost.user) %> <span class="text-muted">posted at <%= micropost.created_at %></span>
           <p><%= micropost.content %></p>
           <%# お気に入りボタン登録している場合はお気に入りから削除を表示する %>
           <% if current_user.favored_microposts.include? micropost %>
